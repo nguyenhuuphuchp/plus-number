@@ -21,7 +21,6 @@ func NewPostgres(user, password, host, dbname string, port int) (*Postgres, erro
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	// DSN với db test, schema public
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		user, password, host, port, dbname)
 
@@ -30,7 +29,6 @@ func NewPostgres(user, password, host, dbname string, port int) (*Postgres, erro
 		return nil, fmt.Errorf("failed to parse config: %w", err)
 	}
 
-	// Đặt schema mặc định là public
 	config.ConnConfig.RuntimeParams["search_path"] = "public"
 
 	pool, err := pgxpool.NewWithConfig(ctx, config)
@@ -48,7 +46,6 @@ func (p *Postgres) Close() {
 
 func (p *Postgres) AddNumbers(ctx context.Context, a, b int) (int, error) {
 	var result int
-	// gọi function trong PostgreSQL
 	err := p.Pool.QueryRow(ctx, "SELECT add_numbers_hard($1, $2)", a, b).Scan(&result)
 	if err != nil {
 		return 0, fmt.Errorf("query error: %w", err)

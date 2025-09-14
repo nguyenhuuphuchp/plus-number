@@ -24,7 +24,6 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/api/add", addHandler)
 
-	// chọn port từ ENV, mặc định 8080
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

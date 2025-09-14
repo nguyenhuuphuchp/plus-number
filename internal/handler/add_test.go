@@ -11,7 +11,6 @@ import (
 	"plus-number/internal/model"
 )
 
-// Mock DB
 type mockDB struct {
 	result int
 	err    error
